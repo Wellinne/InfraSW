@@ -1,43 +1,41 @@
 import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 
-class CarroSincronizado extends Thread{
+class Carro extends Thread{
     private String direcao;
+    private Boolean sincronia;
     private static final int TEMPO_TRAVESSIA = 1000;
-    private static final Semaphore semaphore = new Semaphore(1);
+    private static final Semaphore semaphoreDireita = new Semaphore(1);
+    private static final Semaphore semaphoreEsquerda = new Semaphore(1);
 
-    public CarroSincronizado(String direcao) {
+    public Carro(String direcao, Boolean sincronia) {
         this.direcao = direcao;
+        this.sincronia = sincronia;
     }
 
     @Override
     public void run() {
         try {
-            semaphore.acquire();
-            System.out.println("Carro vindo da " + direcao + " está entrando na ponte.");
-            Thread.sleep(TEMPO_TRAVESSIA);
-            System.out.println("Carro vindo da " + direcao + " atravessou a ponte.");
-            semaphore.release();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-}
-
-class CarroSemSicronia extends Thread {
-    private String direcao;
-    private static final int TEMPO_TRAVESSIA = 1000;
-
-    public CarroSemSicronia(String direcao) {
-        this.direcao = direcao;
-    }
-
-    @Override
-    public void run() {
-        try {
-            System.out.println("Carro sem sicronia vindo da " + direcao + " está entrando na ponte.");
-            Thread.sleep(TEMPO_TRAVESSIA);
-            System.out.println("Carro sem sicronia vindo da " + direcao + " atravessou a ponte.");
+            if(sincronia) {
+                if(direcao.equals("Direita")) {
+                    semaphoreDireita.acquire();
+                    System.out.println("Carro vindo da " + direcao + " está entrando na ponte.");
+                    Thread.sleep(TEMPO_TRAVESSIA);
+                    System.out.println("Carro vindo da " + direcao + " atravessou a ponte.");
+                    semaphoreDireita.release();
+                }
+                if(direcao.equals("Esquerda")) {
+                    semaphoreEsquerda.acquire();
+                    System.out.println("Carro vindo da " + direcao + " está entrando na ponte.");
+                    Thread.sleep(TEMPO_TRAVESSIA);
+                    System.out.println("Carro vindo da " + direcao + " atravessou a ponte.");
+                    semaphoreEsquerda.release();
+                }
+            } else {
+                System.out.println("Carro sem sicronia vindo da " + direcao + " está entrando na ponte.");
+                Thread.sleep(TEMPO_TRAVESSIA);
+                System.out.println("Carro sem sicronia vindo da " + direcao + " atravessou a ponte.");
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -53,10 +51,10 @@ public class Questao2 {
         scanner.close();
 
         if(entrada.equals("1")){
-            CarroSincronizado carro1 = new CarroSincronizado("Direita");
-            CarroSincronizado carro2 = new CarroSincronizado("Direita");
-            CarroSincronizado carro3 = new CarroSincronizado("Esquerda");
-            CarroSincronizado carro4 = new CarroSincronizado("Direita");
+            Carro carro1 = new Carro("Direita", true);
+            Carro carro2 = new Carro("Direita", true);
+            Carro carro3 = new Carro("Esquerda", true);
+            Carro carro4 = new Carro("Direita", true);
 
             carro1.start();
             carro2.start();
@@ -72,10 +70,10 @@ public class Questao2 {
                 e.printStackTrace();
             }
         } else if (entrada.equals("2")){
-            CarroSemSicronia carro1 = new CarroSemSicronia("Direita");
-            CarroSemSicronia carro2 = new CarroSemSicronia("Direita");
-            CarroSemSicronia carro3 = new CarroSemSicronia("Esquerda");
-            CarroSemSicronia carro4 = new CarroSemSicronia("Direita");
+            Carro carro1 = new Carro("Direita", false);
+            Carro carro2 = new Carro("Direita", false);
+            Carro carro3 = new Carro("Esquerda", false);
+            Carro carro4 = new Carro("Direita", false);
 
             carro1.start();
             carro2.start();
