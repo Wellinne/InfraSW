@@ -5,8 +5,7 @@ class Carro extends Thread{
     private String direcao;
     private Boolean sincronia;
     private static final int TEMPO_TRAVESSIA = 1000;
-    private static final Semaphore semaphoreDireita = new Semaphore(1);
-    private static final Semaphore semaphoreEsquerda = new Semaphore(1);
+    private static final Semaphore semaphore = new Semaphore(1);
 
     public Carro(String direcao, Boolean sincronia) {
         this.direcao = direcao;
@@ -17,20 +16,11 @@ class Carro extends Thread{
     public void run() {
         try {
             if(sincronia) {
-                if(direcao.equals("Direita")) {
-                    semaphoreDireita.acquire();
-                    System.out.println("Carro vindo da " + direcao + " está entrando na ponte.");
-                    Thread.sleep(TEMPO_TRAVESSIA);
-                    System.out.println("Carro vindo da " + direcao + " atravessou a ponte.");
-                    semaphoreDireita.release();
-                }
-                if(direcao.equals("Esquerda")) {
-                    semaphoreEsquerda.acquire();
-                    System.out.println("Carro vindo da " + direcao + " está entrando na ponte.");
-                    Thread.sleep(TEMPO_TRAVESSIA);
-                    System.out.println("Carro vindo da " + direcao + " atravessou a ponte.");
-                    semaphoreEsquerda.release();
-                }
+                semaphore.acquire();
+                System.out.println("Carro vindo da " + direcao + " está entrando na ponte.");
+                Thread.sleep(TEMPO_TRAVESSIA);
+                System.out.println("Carro vindo da " + direcao + " atravessou a ponte.");
+                semaphore.release();
             } else {
                 System.out.println("Carro sem sicronia vindo da " + direcao + " está entrando na ponte.");
                 Thread.sleep(TEMPO_TRAVESSIA);
@@ -91,4 +81,3 @@ public class Questao2 {
         }
     }
 }
-
