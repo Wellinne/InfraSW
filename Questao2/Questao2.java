@@ -4,12 +4,14 @@ import java.util.concurrent.Semaphore;
 class Carro extends Thread{
     private String direcao;
     private Boolean sincronia;
+    private String numero;
     private static final int TEMPO_TRAVESSIA = 1000;
     private static final Semaphore semaphore = new Semaphore(1);
 
-    public Carro(String direcao, Boolean sincronia) {
+    public Carro(String direcao, Boolean sincronia, String numero) {
         this.direcao = direcao;
         this.sincronia = sincronia;
+        this.numero = numero;
     }
 
     @Override
@@ -17,14 +19,14 @@ class Carro extends Thread{
         try {
             if(sincronia) {
                 semaphore.acquire();
-                System.out.println("Carro vindo da " + direcao + " está entrando na ponte.");
+                System.out.println("Carro " + numero + " vindo da " + direcao + " está entrando na ponte.");
                 Thread.sleep(TEMPO_TRAVESSIA);
-                System.out.println("Carro vindo da " + direcao + " atravessou a ponte.");
+                System.out.println("Carro "  + numero + " vindo da " + direcao + " atravessou a ponte.");
                 semaphore.release();
             } else {
-                System.out.println("Carro sem sicronia vindo da " + direcao + " está entrando na ponte.");
+                System.out.println("Carro " + numero + " vindo da " + direcao + " está entrando na ponte.");
                 Thread.sleep(TEMPO_TRAVESSIA);
-                System.out.println("Carro sem sicronia vindo da " + direcao + " atravessou a ponte.");
+                System.out.println("Carro "  + numero + " vindo da " + direcao + " atravessou a ponte.");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -41,10 +43,10 @@ public class Questao2 {
         scanner.close();
 
         if(entrada.equals("1")){
-            Carro carro1 = new Carro("Direita", true);
-            Carro carro2 = new Carro("Direita", true);
-            Carro carro3 = new Carro("Esquerda", true);
-            Carro carro4 = new Carro("Direita", true);
+            Carro carro1 = new Carro("Direita", true, "1");
+            Carro carro2 = new Carro("Direita", true, "2");
+            Carro carro3 = new Carro("Esquerda", true, "3");
+            Carro carro4 = new Carro("Direita", true, "4");
 
             carro1.start();
             carro2.start();
@@ -60,10 +62,10 @@ public class Questao2 {
                 e.printStackTrace();
             }
         } else if (entrada.equals("2")){
-            Carro carro1 = new Carro("Direita", false);
-            Carro carro2 = new Carro("Direita", false);
-            Carro carro3 = new Carro("Esquerda", false);
-            Carro carro4 = new Carro("Direita", false);
+            Carro carro1 = new Carro("Direita", false, "1");
+            Carro carro2 = new Carro("Direita", false, "2");
+            Carro carro3 = new Carro("Esquerda", false, "3");
+            Carro carro4 = new Carro("Direita", false, "4");
 
             carro1.start();
             carro2.start();
