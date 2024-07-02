@@ -32,7 +32,7 @@ class Restaurante extends Thread {
     }
 }
 
-public class Questao3 {
+public class Questao4 {
     public static void main(String[] args) {
         Restaurante cliente1 = new Restaurante("Cliente 1");
         Restaurante cliente2 = new Restaurante("Cliente 2");
