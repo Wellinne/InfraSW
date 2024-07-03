@@ -34,47 +34,20 @@ class Restaurante extends Thread {
 
 public class Questao4 {
     public static void main(String[] args) {
-        Restaurante cliente1 = new Restaurante("Cliente 1");
-        Restaurante cliente2 = new Restaurante("Cliente 2");
-        Restaurante cliente3 = new Restaurante("Cliente 3");
-        Restaurante cliente4 = new Restaurante("Cliente 4");
-        Restaurante cliente5 = new Restaurante("Cliente 5");
-        Restaurante cliente6 = new Restaurante("Cliente 6");
-        Restaurante cliente7 = new Restaurante("Cliente 7");
-        Restaurante cliente8 = new Restaurante("Cliente 8");
-        Restaurante cliente9 = new Restaurante("Cliente 9");
-        Restaurante cliente10 = new Restaurante("Cliente 10");
-        Restaurante cliente11 = new Restaurante("Cliente 11");
-        Restaurante cliente12 = new Restaurante("Cliente 12");
+        int NUM_REPETICAO = 100;
+        Restaurante[] clientes = new Restaurante[NUM_REPETICAO];
 
-        cliente1.start();
-        cliente2.start();
-        cliente3.start();
-        cliente4.start();
-        cliente5.start();
-        cliente6.start();
-        cliente7.start();
-        cliente8.start();
-        cliente9.start();
-        cliente10.start();
-        cliente11.start();
-        cliente12.start();
+        for (int i = 0; i < NUM_REPETICAO; i++) {
+            clientes[i] = new Restaurante("Cliente " + (i + 1));
+            clientes[i].start();
+        }
 
-        try {
-            cliente1.join();
-            cliente2.join();
-            cliente3.join();
-            cliente4.join();
-            cliente5.join();
-            cliente6.join();
-            cliente7.join();
-            cliente8.join();
-            cliente9.join();
-            cliente10.join();
-            cliente11.join();
-            cliente12.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        for (int i = 0; i < NUM_REPETICAO; i++) {
+            try {
+                clientes[i].join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
