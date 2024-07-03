@@ -3,7 +3,7 @@ import java.util.concurrent.Semaphore;
 class Restaurante extends Thread {
     private String cliente;
     private static final int TEMPO_JANTA = 1000;
-    private static final Semaphore semaphore = new Semaphore(5);
+    private static final Semaphore semaphore = new Semaphore(5, true);
 
     public Restaurante(String cliente) {
         this.cliente = cliente;
