@@ -5,8 +5,10 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+//sleeps com numeros aleatorios pq se nao ficava muito uniforme
+
 //clientes organizados em fila por ordem de chegada
-//5 cadeiras na espera e 15 clientes
+//5 cadeiras na espera e 100 clientes
 public class Barbearia {
     private static final Lock lock = new ReentrantLock();
 
@@ -20,13 +22,14 @@ public class Barbearia {
 
     public static void main(String[] args) {
         //cria e inicia o barbeiro
+        //como daemon pq ele continuava executando mesmo quando nao havia mais cientes
         Barbeiro barbeiro = new Barbeiro();
         barbeiro.setDaemon(true);
         barbeiro.start();
 
         //cria e inicia os clientes em intervalos aleatorios
-        Cliente[] thread_clientes = new Cliente[15];
-        for (int i = 0; i < 15; i++) {
+        Cliente[] thread_clientes = new Cliente[100];
+        for (int i = 0; i < 100; i++) {
             
             thread_clientes[i] = new Cliente("Cliente " + (i));
             thread_clientes[i].start();
