@@ -1,2 +1,0 @@
-# InfraSW
-Concorrência em Java
